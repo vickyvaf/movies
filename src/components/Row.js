@@ -6,13 +6,14 @@ const Row = ({ title, fetchUrl, isLargeRow = false }) => {
 
   const getMovies = async () => {
     const response = await axios.get(`https://api.themoviedb.org/3${fetchUrl}`)
+    // console.log(response.data)
     setMovies(response.data.results)
     return response
   }
 
   useEffect(() => {
     getMovies()
-  })
+  }, [])
 
   return (
     <div className='row'>
@@ -21,6 +22,7 @@ const Row = ({ title, fetchUrl, isLargeRow = false }) => {
         {movies.map((movie) => {
           return (
             <img
+              key={movie.id}
               className={`row-poster ${isLargeRow && "row-posterLarge"}`}
               src={`https://image.tmdb.org/t/p/original${isLargeRow ? movie?.poster_path : movie.backdrop_path}`}
               alt={movie.name}
